@@ -75,7 +75,7 @@ All results are announced clearly using **voice output** — no need to look at 
 ## 🔊 Voice-First Design
 
 - **Automatic voice announcement** of product name and color
-- **Full TalkBack compatibility** for screen reader users
+- **Full TalkBack compatibility** for screen reader users.
 - **Clear, audible feedback** at every step
 - No need to look at the screen — everything is announced
 
