@@ -1,173 +1,362 @@
-# 🔍 Accessible Vision Scanner
+# 👁️ Helping Eyes - AI Powered Product Recognition for the Visually Impaired
 
-**Point your camera at any product to identify it instantly.**
+![React Native](https://img.shields.io/badge/React%20Native-Mobile-blue)
+![Python](https://img.shields.io/badge/Python-Flask-green)
+![YOLO](https://img.shields.io/badge/YOLO-Object%20Detection-red)
+![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-orange)
+![OCR](https://img.shields.io/badge/Tesseract-OCR-yellow)
 
-An accessibility-first mobile app that helps visually impaired users identify everyday products. Snap a photo (or pick one from the gallery), and the app reads back the product's **name** and **packaging color** out loud — no need to see the screen at all.
+## 📖 About the Project
 
----
+Helping Eyes is an AI-powered mobile application built to help visually impaired people identify everyday products independently.
 
-## 📱 What it looks like
+Many visually impaired people face difficulties while shopping because they cannot easily recognize packaged products. Products often look similar in shape but differ in brand, flavor, or color. Helping Eyes solves this problem by using Artificial Intelligence and Computer Vision.
 
-**Home screen**
-- 🔊 *"Voice guidance active"* badge — confirms audio feedback is on before the user even scans
-- 📷 **Take Photo** — large, high-contrast capture button
-- 🖼️ **Choose from Gallery** — fallback for existing images
+The application allows users to capture an image of any product using their smartphone camera. The image is processed by an AI backend that detects the product, extracts the product name from the packaging, identifies the dominant package color, and finally speaks the result aloud using Text-to-Speech.
 
-**Scan result**
-```
-✅ Scan Successful!
-
-📦 Product:   Colgate
-🎨 Color:     Red
-
-🔊 Reading result...  (spoken aloud via TTS)
-
-🕒 07/18/26, 18:30:15
-
-[ ↻ Scan Again ]
-```
-
-> Example: scanning a Colgate toothpaste box correctly returns **Product: Colgate**, **Color: Red** — matching the bold, largest text on the packaging and the dominant packaging color, ignoring background and smaller print like ingredients or barcodes.
-
-*(Replace this section with an actual screenshot once available: `![Scan result](docs/scan-result.png)`)*
+The goal of the project is to make shopping safer, faster, and more independent for visually impaired users without requiring assistance from others.
 
 ---
 
-## ✨ Features
+# 🎯 Problem Statement
 
-- 🅰️ **Largest/boldest text detection** — OCR is tuned to identify the brand name specifically, not just any text on the label (ignores small print like weight, expiry, ingredients)
-- 🎨 **Accurate color detection** — uses clustering to isolate the packaging's real color from background and lighting artifacts, instead of a naive whole-image average
-- ✂️ **Product localization (YOLOv8)** — detects and crops to the product itself before analysis, cutting out hands/background clutter
-- 📷 **Image quality checks** — detects blur, underexposure, and overexposure, and returns spoken guidance ("please hold steady and try again") instead of silently returning a wrong result
-- 🔊 **Voice-first UX** — every result and every failure state is designed to be *heard*, not read
-- 🔁 **One-tap rescan** — quick retry loop for a fast, low-friction experience
+Visually impaired people often face challenges such as:
 
----
+- Difficulty identifying packaged products.
+- Similar-looking product packaging.
+- Unable to distinguish colors.
+- Dependence on others while shopping.
+- Reading product labels is almost impossible.
 
-## 🛠️ Tech Stack
-
-### Frontend
-| Tool | Purpose |
-|---|---|
-| **React Native 0.73** | Cross-platform mobile app framework (TypeScript) |
-| **Android Studio** | Android SDK, emulator, and native build tooling |
-| **VS Code** | Primary code editor for JS/TS development |
-| **adb reverse** | Tunnels the physical/emulated device to the local Flask backend during development |
-
-### Backend
-| Tool | Purpose |
-|---|---|
-| **Python + Flask** | REST API serving the mobile app |
-| **Tesseract OCR** (`pytesseract`) | Text extraction, scored by font height + stroke "boldness" to isolate the product name from surrounding label text |
-| **OpenCV** | Image preprocessing (denoising, sharpening, adaptive thresholding), k-means color clustering |
-| **YOLOv8** (`ultralytics`) | Object detection to localize and crop the product before OCR/color analysis |
-| **NumPy** | Array/image math throughout the pipeline |
+Helping Eyes addresses these challenges using Artificial Intelligence.
 
 ---
 
-## 📂 Project Structure
+# 💡 Solution
+
+Helping Eyes combines multiple AI technologies into a single mobile application.
+
+The workflow is:
 
 ```
-.
-├── App.tsx             # React Native app entry point
-├── app.py              # Flask backend (OCR + color + object detection)
-├── requirements.txt    # Python dependencies
-├── package.json         # React Native dependencies
-└── .gitignore
+User
+   │
+   ▼
+Capture Product Image
+   │
+   ▼
+YOLO Object Detection
+   │
+   ▼
+Crop Product Region
+   │
+   ▼
+Image Enhancement
+(OpenCV)
+   │
+   ▼
+OCR Text Extraction
+(Tesseract OCR)
+   │
+   ▼
+Product Name Detection
+(Custom Scoring Algorithm)
+   │
+   ▼
+Color Detection
+(OpenCV)
+   │
+   ▼
+Voice Output
+(Text-to-Speech)
+```
+
+The user simply points the camera at a product, and the application automatically announces:
+
+> "Surf Excel. Blue package."
+
+---
+
+# ✨ Features
+
+## 📷 Product Scanning
+
+- Capture product using camera
+- Select image from gallery
+- Automatic image upload
+
+---
+
+## 🤖 AI Object Detection
+
+YOLO is used to detect the product inside the captured image.
+
+Instead of processing the entire image, the model focuses only on the product region, improving OCR accuracy and reducing background noise.
+
+---
+
+## 🔍 OCR Text Recognition
+
+The detected product is processed using OCR.
+
+Features include:
+
+- Text extraction
+- Noise removal
+- Image enhancement
+- Adaptive thresholding
+- CLAHE enhancement
+- Text grouping
+- Product name scoring
+
+---
+
+## 📦 Product Name Identification
+
+The application intelligently determines the most probable product name using a custom scoring algorithm.
+
+Instead of simply selecting random text, it considers:
+
+- Text confidence
+- Text size
+- Word grouping
+- Position
+- OCR confidence
+- Text length
+
+---
+
+## 🎨 Color Detection
+
+Helping Eyes also detects the dominant package color.
+
+Supported colors include:
+
+- Red
+- Blue
+- Green
+- Yellow
+- Orange
+- Purple
+- Pink
+- Black
+- White
+- Gray
+- Turquoise
+
+---
+
+## 🔊 Voice Assistance
+
+After detection, the application automatically speaks:
+
+- Product Name
+- Package Color
+
+This enables visually impaired users to understand the result without looking at the screen.
+
+---
+
+# 🛠 Technologies Used
+
+## Mobile Application
+
+- React Native CLI
+- TypeScript
+- Axios
+- React Native Image Picker
+- React Native TTS
+
+---
+
+## Backend
+
+- Python
+- Flask
+- Flask-CORS
+
+---
+
+## Artificial Intelligence
+
+- YOLO
+- Tesseract OCR
+- OpenCV
+- NumPy
+- Pillow
+
+---
+
+# 🧠 AI Pipeline
+
+```
+Camera
+   │
+   ▼
+YOLO
+(Object Detection)
+   │
+   ▼
+OpenCV
+(Image Processing)
+   │
+   ▼
+OCR
+(Text Detection)
+   │
+   ▼
+Scoring Algorithm
+(Product Detection)
+   │
+   ▼
+Color Detection
+   │
+   ▼
+Speech Output
 ```
 
 ---
 
-## 🚀 Setup
+# 📂 Project Structure
 
-### Frontend (React Native 0.73)
+```
+Helping-Eyes
 
-**Prerequisites:** Node.js, npm/yarn, JDK, Android Studio (with an SDK + emulator, or a physical device with USB debugging enabled)
+frontend/
+│
+├── src/
+│   ├── screens/
+│   ├── services/
+│   ├── components/
+│   ├── utils/
+│   └── assets/
+
+backend/
+│
+├── app.py
+├── uploads/
+├── models/
+├── requirements.txt
+
+README.md
+```
+
+---
+
+# 🚀 Installation
+
+## Clone Repository
 
 ```bash
-npm install
+git clone https://github.com/yourusername/Helping-Eyes.git
+
+cd Helping-Eyes
 ```
 
-**Run on Android:**
-```bash
-npx react-native run-android
-```
+---
 
-**Development networking:** when testing on a physical device connected via USB, tunnel the backend port so the app can reach Flask on your machine:
-```bash
-adb reverse tcp:5000 tcp:5000
-adb reverse tcp:8081 tcp:8081
-```
-
-### Backend (Flask)
+## Install Backend
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Install Tesseract OCR on your machine:
-- **Windows:** [Tesseract installer](https://github.com/UB-Mannheim/tesseract/wiki)
-- **Mac:** `brew install tesseract`
-- **Linux:** `sudo apt install tesseract-ocr`
+Run
 
-If Tesseract isn't on your system PATH:
-```bash
-export TESSERACT_CMD="/path/to/tesseract"
-```
-
-Run the server:
 ```bash
 python app.py
 ```
 
-> First run downloads YOLOv8's pretrained weights (`yolov8n.pt`, ~6 MB) — requires internet once.
+---
+
+## Install Frontend
+
+```bash
+npm install
+```
+
+Start Metro
+
+```bash
+npx react-native start
+```
+
+Run Android
+
+```bash
+npx react-native run-android
+```
 
 ---
 
-## 🔌 API
+# 📡 API
 
-| Endpoint | Method | Description |
-|---|---|---|
-| `/` | GET | Health check — confirms backend is running |
-| `/ping` | GET | Confirms phone-to-backend connectivity |
-| `/health` | GET | Reports Tesseract path + YOLO model load status |
-| `/upload` | POST | Accepts an image (`image` form field) → returns product name, color, and quality feedback |
+## POST /upload
 
-### Example `/upload` response
+Uploads a product image.
+
+### Response
 
 ```json
 {
-  "product": "Colgate",
-  "ocr_text": "Colgate",
-  "color": "Red",
-  "low_confidence": false,
-  "quality": {
-    "sharpness": 152.3,
-    "brightness": 128.7,
-    "is_blurry": false,
-    "is_too_dark": false,
-    "is_too_bright": false
-  },
-  "feedback": null,
-  "detected_object": {
-    "box": [95, 60, 610, 430],
-    "confidence": 0.68,
-    "class_name": "box"
-  }
+  "product": "Surf Excel",
+  "ocr_text": "Surf Excel",
+  "color": "Blue"
 }
 ```
 
 ---
 
-## 🗺️ Roadmap
+# 📈 Future Improvements
 
-- [ ] Fine-tune YOLOv8 on a custom "product package" class for broader packaging-shape coverage
-- [ ] On-device TTS refinements (adjustable speech rate, language options)
-- [ ] Offline-first mode
-- [ ] Scan history log
+- Real-time camera detection
+- Offline AI model optimization
+- Barcode scanning
+- QR code support
+- Currency recognition
+- Medicine identification
+- Expiry date detection
+- Voice command support
+- Multiple language OCR
+- Nutrition information detection
+- Shopping assistance mode
+- Cloud synchronization
 
 ---
 
-## 📄 License
+# 🎯 Real World Applications
 
-MIT
+Helping Eyes can be used in:
+
+- Grocery shopping
+- Supermarkets
+- Retail stores
+- Homes
+- Schools for visually impaired students
+- NGOs
+- Hospitals
+- Smart accessibility devices
+
+---
+
+# 🌍 Impact
+
+Helping Eyes aims to improve accessibility by reducing dependence on others during shopping.
+
+The application empowers visually impaired individuals to identify products independently using AI and voice guidance.
+
+---
+
+# 👨‍💻 Author
+
+**Ansh Burnwal**
+
+B.Tech Student | Android Developer | AI Enthusiast
+
+---
+
+# ⭐ Support
+
+If you found this project useful, consider giving it a ⭐ on GitHub.
+
+Your support motivates future development.
