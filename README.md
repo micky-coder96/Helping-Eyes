@@ -10,7 +10,7 @@
 
 Helping Eyes is an AI-powered mobile application built to help visually impaired people identify everyday products independently.
 
-Many visually impaired people face difficulties while shopping because they cannot easily recognize packaged products. Products often look similar in shape but differ in brand, flavor, or color. Helping Eyes solves this problem by using Artificial Intelligence and Computer Vision.
+Many visually impaired people face difficulties while shopping because they cannot easily recognize packaged products. Products often look similar in shape but differ in brand, flavor, or color. Helping Eyes solves this problem by using Artificial Intelligence and Computer Vision.(note: many blind person are using mobile phone by  support of talkback feature in phones).
 
 The application allows users to capture an image of any product using their smartphone camera. The image is processed by an AI backend that detects the product, extracts the product name from the packaging, identifies the dominant package color, and finally speaks the result aloud using Text-to-Speech.
 
